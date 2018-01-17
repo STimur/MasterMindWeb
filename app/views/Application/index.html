@@ -7,7 +7,26 @@
 </p>
 #{/if}
 
-<form action="@{Application.sayHello()}" method="GET">
-    <input type="text" name="myName" />
-    <input type="submit" value="Say hello!" />
+#{if !gameVO.isFinished}
+<form action="@{Application.guess()}" method="GET">
+    <input type="text" name="guess" />
+    <input type="submit" value="Guess" />
 </form>
+#{/if}
+#{else}
+<form action="@{Application.restart()}" method="GET">
+    <input type="submit" value="Play again" />
+</form>
+#{/else}
+
+#{list hints, as:'hint'}
+<p>${hint}</p>
+#{/list}
+
+
+#{if gameVO.isFinished}
+<p>PROFIT!</p>
+#{/if}
+#{else}
+<p>THINK BETTER!</p>
+#{/else}

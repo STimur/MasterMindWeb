@@ -4,7 +4,8 @@
 
 # Home page
 GET     /                                       Application.index
-GET     /hello                                  Application.sayHello
+GET     /guess                                  Application.sayHello
+GET     /restart                                Application.restart
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
