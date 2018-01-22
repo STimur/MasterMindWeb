@@ -7,7 +7,7 @@
 </p>
 #{/if}
 
-#{if !gameVO.isFinished}
+#{if !game.isFinished}
 <form action="@{Application.guess()}" method="GET">
     <input type="text" name="guess" />
     <input type="submit" value="Guess" />
@@ -24,7 +24,7 @@
 #{/list}
 
 
-#{if gameVO.isFinished}
+#{if game.isFinished}
 <p>PROFIT!</p>
 #{/if}
 #{else}

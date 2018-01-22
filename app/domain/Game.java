@@ -1,6 +1,8 @@
 package domain;
 
-public class Game {
+import java.io.Serializable;
+
+public class Game implements Serializable {
     protected Code code;
 
     public boolean isFinished;
