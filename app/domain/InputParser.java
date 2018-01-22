@@ -1,4 +1,4 @@
-package models;
+package domain;
 
 public class InputParser {
     public static int[] parse(String input) {

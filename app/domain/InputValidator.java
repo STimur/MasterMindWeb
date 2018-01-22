@@ -1,4 +1,4 @@
-package models;
+package domain;
 
 public class InputValidator {
     public static void validate(String input) {

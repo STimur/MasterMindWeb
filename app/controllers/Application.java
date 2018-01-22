@@ -1,8 +1,8 @@
 package controllers;
 
-import models.Game;
-import models.InputParser;
-import models.InputValidator;
+import domain.Game;
+import domain.InputParser;
+import domain.InputValidator;
 import play.data.validation.Required;
 import play.data.validation.Validation;
 import play.mvc.Controller;

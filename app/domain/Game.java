@@ -1,4 +1,4 @@
-package models;
+package domain;
 
 public class Game {
     protected Code code;
