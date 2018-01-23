@@ -1,32 +1,69 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
-#{if flash.error}
-<p style="color:#c00">
-    ${flash.error}
-</p>
-#{/if}
+<div id="error" style="display: none">
+    <p style="color:#c00">Wrong guess! It should consist of 4 integers in 0 to 5 range, e.g.: 1122</p>
+</div>
 
-#{if !game.isFinished}
-<form action="@{Application.guess()}" method="GET">
-    <input type="text" name="guess" />
-    <input type="submit" value="Guess" />
-</form>
-#{/if}
-#{else}
-<form action="@{Application.restart()}" method="GET">
-    <input type="submit" value="Play again" />
-</form>
-#{/else}
+<div>
+    <input id="guess" type="text" name="guess"/>
+    <input id="guessButton" type="button" value="Guess"/>
+    <input id="restartButton" type="button" value="Play again" style="display: none"/>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#guessButton").click(function () {
+                $.get("/guess", {guess: $('#guess').val()},
+                        function (gameViewModel) {
+                            if (!gameViewModel.isValid) {
+                                $('#error').show();
 
-#{list hints, as:'hint'}
-<p>${hint}</p>
-#{/list}
+                            } else {
+                                $('#error').hide();
+                                $('#hints').append("<p>" + gameViewModel.hint + "</p>");
+                            }
+                            if (!gameViewModel.isFinished) {
+                                $('#guess').val('');
+                                $('#guess').focus();
+                                $('#guess').show();
+                                $('#guessButton').show();
+                                $('#restartButton').hide();
+                                $('#gameInProgress').show();
+                                $('#gameFinished').hide();
+                            } else {
+                                $('#guess').focusout();
+                                $('#guess').hide();
+                                $('#guessButton').hide();
+                                $('#restartButton').show();
+                                $('#restartButton').focus();
+                                $('#gameInProgress').hide();
+                                $('#gameFinished').show();
+                            }
+                        }, "json");
+            });
+            $("#restartButton").click(function () {
+                $.get("/restart", function () {
+                    $('#guess').val('');
+                    $('#guess').show();
+                    $('#guess').focus();
+                    $('#guessButton').show();
+                    $('#restartButton').hide();
+                    $('#hints').empty();
+                    $('#gameInProgress').show();
+                    $('#gameFinished').hide();
+                });
+            });
+            $("#guess").keyup(function (event) {
+                if (event.keyCode === 13) {
+                    $("#guessButton").click();
+                }
+            });
+        })
+    </script>
+</div>
 
+<div id="hints">
+</div>
 
-#{if game.isFinished}
-<p>PROFIT!</p>
-#{/if}
-#{else}
-<p>THINK BETTER!</p>
-#{/else}
+<p id="gameInProgress">THINK BETTER!</p>
+
+<p id="gameFinished" style="display: none">PROFIT!</p>
