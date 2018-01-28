@@ -9,6 +9,9 @@ import play.data.validation.Required;
 import play.mvc.Controller;
 import viewmodels.GameViewModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Application extends Controller {
 
     public static void index() {
@@ -17,7 +20,14 @@ public class Application extends Controller {
             game = new Game();
             Cache.set("Game" + session.getId(), game);
         }
-        render();
+
+        List<String> hints = Cache.get("Hints" + session.getId(), List.class);
+        if (hints == null) {
+            hints = new ArrayList<>();
+            Cache.set("Hints" + session.getId(), hints);
+        }
+
+        render(game, hints);
     }
 
     public static void guess(@Required String guess) {
@@ -38,15 +48,21 @@ public class Application extends Controller {
         if (game.isFinished)
             gameViewModel.isFinished = game.isFinished;
 
+        List<String> hints = Cache.get("Hints" + session.getId(), List.class);
+
         gameViewModel.hint = String.format(
                 "Your guess: %s\n" +
                 "wellplaced: %d misplaced: %d", guess, answer[0], answer[1]);
+
+
+        hints.add(gameViewModel.hint);
 
         renderJSON(JsonOutput.toJson(gameViewModel));
     }
 
     public static void restart() {
         Cache.set("Game" + session.getId(), new Game());
+        Cache.set("Hints" + session.getId(), new ArrayList<>());
     }
 
 }
