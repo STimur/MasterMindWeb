@@ -4,15 +4,40 @@
     <head>
         <title>#{get 'title' /}</title>
         <meta charset="${_response_encoding}">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
-        #{get 'moreStyles' /}
+    #{get 'moreStyles' /}
         <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
-        <script src="@{'/public/javascripts/jquery-1.6.4.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        <script src="@{'/public/javascripts/jquery-1.6.4.min.js'}" type="text/javascript"
+                charset="${_response_encoding}"></script>
     </head>
     <body>
-        <h1>Master Mind</h1>
-        <hr/>
+        <div class="container">
+            <div class="row border-bottom border-primary mb-3">
+                <div class="col-sm">
+                    <h1 class="text-center">Master Mind</h1>
+                </div>
+            </div>
+            <div class="row centered-text">
+                <div class="col-sm">
+                #{doLayout /}
+                </div>
+            </div>
 
-        #{doLayout /}
+            <div id="gameInProgress" class="row border-top border-primary mt-3 pt-2">
+                <div class="col-sm">
+                    <p class="centered-text">THINK BETTER!</p>
+                </div>
+            </div>
+
+            <div id="gameFinished" class="row border-top border-primary mt-3 pt-2" style="display: none">
+                <div class="col-sm">
+                    <p class="centered-text">PROFIT!</p>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

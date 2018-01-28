@@ -19,7 +19,7 @@
 
                             } else {
                                 $('#error').hide();
-                                $('#hints').append("<p>" + gameViewModel.hint + "</p>");
+                                $('#hints').append("<p class='mt-3'>" + gameViewModel.hint + "</p>");
                             }
                             if (!gameViewModel.isFinished) {
                                 $('#guess').val('');
@@ -63,7 +63,3 @@
 
 <div id="hints">
 </div>
-
-<p id="gameInProgress">THINK BETTER!</p>
-
-<p id="gameFinished" style="display: none">PROFIT!</p>
