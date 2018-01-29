@@ -1,7 +1,7 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
-<div class="container border border-info" style="width: 375px;">
+<div id="main" class="container border border-info">
     <div class="row bg-primary">
         <div class="col">
             <h1 class="text-center text-light mb-0">Mastermind</h1>
@@ -9,72 +9,22 @@
     </div>
     <div class="row centered-text mt-3 mb-3">
         <div class="col">
-            <div id="error" style="display: none">
-                <p style="color:#c00">Wrong guess! It should consist of 4 integers in 0 to 5 range, e.g.: 1122</p>
+            <div id="error">
+                <p class="text-danger">Wrong guess! It should consist of 4 integers in 0 to 5 range, e.g.: 1122</p>
             </div>
             <div class="container">
                 <div class="row">
                     <div class="col"></div>
                     <div class="col">
-                        <input id="guess" type="text" class="form-control" name="guess" style="width: 150px; text-align: center"/>
+                        <input id="guess" type="text" class="form-control" name="guess"/>
                     </div>
                     <div class="col">
                         <input id="guessButton" type="button" class="btn btn-warning" value="Guess"/>
                     </div>
                     <div class="col"></div>
                 </div>
-                <input id="restartButton" type="button" class="btn btn-warning" value="Play again" style="display: none"/>
+                <input id="restartButton" type="button" class="btn btn-warning" value="Play again"/>
             </div>
-            <script type="text/javascript">
-                $(document).ready(function () {
-                    $("#guessButton").click(function () {
-                        $.get("/guess", {guess: $('#guess').val()},
-                                function (gameViewModel) {
-                                    if (!gameViewModel.isValid) {
-                                        $('#error').show();
-
-                                    } else {
-                                        $('#error').hide();
-                                        $('#hints').append("<p class='mt-3'>" + gameViewModel.hint + "</p>");
-                                    }
-                                    if (!gameViewModel.isFinished) {
-                                        $('#guess').val('');
-                                        $('#guess').focus();
-                                        $('#guess').show();
-                                        $('#guessButton').show();
-                                        $('#restartButton').hide();
-                                        $('#gameInProgress').show();
-                                        $('#gameFinished').hide();
-                                    } else {
-                                        $('#guess').focusout();
-                                        $('#guess').hide();
-                                        $('#guessButton').hide();
-                                        $('#restartButton').show();
-                                        $('#restartButton').focus();
-                                        $('#gameInProgress').hide();
-                                        $('#gameFinished').show();
-                                    }
-                                }, "json");
-                    });
-                    $("#restartButton").click(function () {
-                        $.get("/restart", function () {
-                            $('#guess').val('');
-                            $('#guess').show();
-                            $('#guess').focus();
-                            $('#guessButton').show();
-                            $('#restartButton').hide();
-                            $('#hints').empty();
-                            $('#gameInProgress').show();
-                            $('#gameFinished').hide();
-                        });
-                    });
-                    $("#guess").keyup(function (event) {
-                        if (event.keyCode === 13) {
-                            $("#guessButton").click();
-                        }
-                    });
-                })
-            </script>
             <div id="hints">
             #{list hints, as: 'hint'}
                 <p class='mt-3'>${hint}</p>
@@ -87,10 +37,9 @@
             <h4 class="centered-text text-light mt-2 mb-2">THINK BETTER!</h4>
         </div>
     </div>
-    <div id="gameFinished" class="row bg-primary" style="display: none">
+    <div id="gameFinished" class="row bg-primary">
         <div class="col">
             <h4 class="centered-text text-light mt-2 mb-2">GRATS! YOU'VE WON!</h4>
         </div>
     </div>
 </div>
-
